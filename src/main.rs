@@ -1,13 +1,13 @@
-use rand::Rng;
+// use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
+use std::iter::repeat_with;
 
 fn main() {
-    println!("Guess the number!");
+    println!("Guess the letter!");
 
-    let secret_number = rand::thread_rng().gen_range(1..101);
-    println!("The secret number is: {}", secret_number);
-
+    let secret_alphabet: String = repeat_with(fastrand::lowercase).take(10).collect();
+    println!("The random alphabet is: {}", secret_alphabet);
 
     loop {
         println!("Please input your guess.");
@@ -18,16 +18,16 @@ fn main() {
             .read_line(&mut guess)
             .expect("Failed to read line");
 
-        let guess: u32 = match guess.trim().parse() {
+        let guess: String = match guess.trim().parse() {
             Ok(num) => num,
             Err(_) => continue,
         };
 
         println!("You guessed: {}", guess);
 
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
+        match guess.cmp(&secret_alphabet) {
+            Ordering::Less => println!("Letter is too small!"),
+            Ordering::Greater => println!("Letter is too big!"),
             Ordering::Equal => {
                 println!("You win!");
                 break;
